@@ -65,4 +65,30 @@ const CGFloat defaultXSpacing=160;
     [chain runAction:oscillate];
 }
 
+-(BOOL)intersectsNode:(SKNode *)node
+{
+    BOOL is=[super intersectsNode:node];
+    if (is) {
+        return is;
+    }
+    else{
+        
+        CGPoint hammerPositionRotated=[ZZSpriteNode rotateVector:hammer.position rotation:chain.zRotation];
+        CGPoint hammerPositionOnBeam=CGPointMake(chain.position.x+hammerPositionRotated.x, chain.position.y+hammerPositionRotated.y);
+        CGPoint hammerPositionOnScene=CGPointMake(self.position.x+hammerPositionOnBeam.x, self.position.y+hammerPositionOnBeam.y);
+        
+//        ZZSpriteNode* testNode=[ZZSpriteNode spriteNodeWithColor:[SKColor cyanColor] size:hammer.size];
+//        testNode.position=hammerPositionOnScene;
+//        [self.parent addChild:testNode];
+//        [testNode runAction:[SKAction waitForDuration:1/60.0] completion:^{
+//            [testNode removeFromParent];
+//        }];
+        
+        ZZSpriteNode* testNode=[ZZSpriteNode spriteNodeWithColor:[SKColor clearColor] size:hammer.size];
+        testNode.position=hammerPositionOnScene;
+        is=[testNode intersectsNode:node];
+    }
+    return is;
+}
+
 @end

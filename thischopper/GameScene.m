@@ -66,7 +66,10 @@ const CFTimeInterval defaultCreateObjectFreq=defaultYSpacing/defaultFallingSpeed
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    if(g>0)
+    if (g==0) {
+        return;
+    }
+    else if(g>0)
     {
         g=-defaultGG;
     }
@@ -96,7 +99,7 @@ const CFTimeInterval defaultCreateObjectFreq=defaultYSpacing/defaultFallingSpeed
     CGFloat rotation=0;
     if (g!=0) {
         rotation=(g>0?-1:1)*M_PI_4;
-        [chopper runAction:[SKAction rotateToAngle:rotation duration:0.5]];
+        [chopper runAction:[SKAction rotateToAngle:rotation duration:0.25]];
     }
     
     chopper.position=CGPointMake(chopper.position.x+chopper.speedX*deltaTime,chopper.position.y);
@@ -171,11 +174,16 @@ const CFTimeInterval defaultCreateObjectFreq=defaultYSpacing/defaultFallingSpeed
     
     SKAction* rotation=[SKAction rotateToAngle:M_PI+(1*2*M_PI) duration:fallingTime shortestUnitArc:NO];
     SKAction* rotation2=[SKAction rotateToAngle:M_PI+(4*2*M_PI) duration:fallingTime shortestUnitArc:NO];
-    [chopper runAction:[SKAction group:[NSArray arrayWithObjects:rotation,[SKAction moveByX:-20 y:0 duration:fallingTime], nil]]];
-    [wing runAction:[SKAction group:[NSArray arrayWithObjects:rotation2,[SKAction moveByX:50 y:-chopper.size.height duration:fallingTime], nil]]];
+    
+    SKAction* chopperAction=[SKAction group:[NSArray arrayWithObjects:rotation,[SKAction moveTo:CGPointMake(self.size.width/2, chopper.position.y) duration:fallingTime], nil]];
+    chopperAction.timingMode=SKActionTimingEaseIn;
+    [chopper runAction:chopperAction];
+    
+    SKAction* wingAction=[SKAction group:[NSArray arrayWithObjects:rotation2,[SKAction moveTo:CGPointMake(self.size.width/2+40, chopper.position.y-chopper.size.height/2) duration:fallingTime], nil]];
+    wingAction.timingMode=chopperAction.timingMode;
+    [wing runAction:wingAction];
     
     [ground runAction:[SKAction moveTo:CGPointMake(self.size.width/2, ground.size.height/2) duration:fallingTime] completion:^{
-        
         [self performSelector:@selector(restartGame) withObject:nil afterDelay:2];
     }];
 }

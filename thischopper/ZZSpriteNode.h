@@ -14,4 +14,7 @@
 
 +(instancetype)defaultNode;
 
++(CGPoint)rotatePoint:(CGPoint)poi origin:(CGPoint)ori rotation:(CGFloat)rad;
++(CGPoint)rotateVector:(CGPoint)vec rotation:(CGFloat)rad;
+
 @end
