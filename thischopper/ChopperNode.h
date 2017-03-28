@@ -11,5 +11,6 @@
 @interface ChopperNode : ZZSpriteNode
 
 -(void)startEngine;
+-(void)crashWithPieces;
 
 @end
