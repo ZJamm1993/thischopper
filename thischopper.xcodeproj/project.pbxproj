@@ -16,7 +16,21 @@
 		39A14A521E3B74F000DFA196 /* ChopperNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 39A14A511E3B74F000DFA196 /* ChopperNode.m */; };
 		39F3C97B1E3CAC1100C51CB3 /* CrossbeamNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F3C97A1E3CAC1100C51CB3 /* CrossbeamNode.m */; };
 		39FD44461E83715600D0A3F4 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39FD44451E83715600D0A3F4 /* Default-568h@2x.png */; };
+		8E6E63401F7B50ED00DFBD7C /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E6E633F1F7B50ED00DFBD7C /* GameKit.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8E4CF94F1F6FA6ED005B0A09 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		39A14A2E1E3B727100DFA196 /* thischopper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = thischopper.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -37,6 +51,8 @@
 		39F3C97A1E3CAC1100C51CB3 /* CrossbeamNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CrossbeamNode.m; sourceTree = "<group>"; };
 		39F3C97C1E3CB21500C51CB3 /* pch.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pch.pch; sourceTree = "<group>"; };
 		39FD44451E83715600D0A3F4 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		8E4CF93F1F6FA6ED005B0A09 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
+		8E6E633F1F7B50ED00DFBD7C /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,6 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E6E63401F7B50ED00DFBD7C /* GameKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -55,6 +72,7 @@
 			children = (
 				39FD44451E83715600D0A3F4 /* Default-568h@2x.png */,
 				39A14A301E3B727100DFA196 /* thischopper */,
+				8E4CF93E1F6FA6ED005B0A09 /* Frameworks */,
 				39A14A2F1E3B727100DFA196 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -98,6 +116,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		8E4CF93E1F6FA6ED005B0A09 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8E6E633F1F7B50ED00DFBD7C /* GameKit.framework */,
+				8E4CF93F1F6FA6ED005B0A09 /* NotificationCenter.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -108,6 +135,7 @@
 				39A14A2A1E3B727100DFA196 /* Sources */,
 				39A14A2B1E3B727100DFA196 /* Frameworks */,
 				39A14A2C1E3B727100DFA196 /* Resources */,
+				8E4CF94F1F6FA6ED005B0A09 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
@@ -129,6 +157,12 @@
 				TargetAttributes = {
 					39A14A2D1E3B727100DFA196 = {
 						CreatedOnToolsVersion = 7.2.1;
+						DevelopmentTeam = 9J7GGU5G9G;
+						SystemCapabilities = {
+							com.apple.GameCenter = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -264,12 +298,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PREFIX_HEADER = "$(SRCROOT)/thischopper/pch.pch";
 				INFOPLIST_FILE = thischopper/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = jam.studio.thischopper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -277,12 +314,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PREFIX_HEADER = "$(SRCROOT)/thischopper/pch.pch";
 				INFOPLIST_FILE = thischopper/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = jam.studio.thischopper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

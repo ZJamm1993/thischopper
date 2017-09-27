@@ -10,6 +10,7 @@
 #import "ZZSpriteNode.h"
 #import "ChopperNode.h"
 #import "CrossbeamNode.h"
+#import <GameKit/GameKit.h>
 
 const CGFloat defaultGG=800.0;
 const CGFloat defaultFallingSpeed=100;
@@ -22,13 +23,18 @@ const CFTimeInterval defaultCreateObjectFreq=defaultYSpacing/defaultFallingSpeed
     CFTimeInterval lastTime;
     ChopperNode* chopper;
     ZZSpriteNode* ground;
+    SKLabelNode* scoreLabel;
     CFTimeInterval lastCreateTime;
     BOOL shouldCreateObjects;
     BOOL isGameOver;
+    
+    NSInteger currentScore;
 }
 
 -(void)didMoveToView:(SKView *)view {
     /* Setup your scene here */
+    
+    currentScore=0;
     
     self.backgroundColor=[SKColor blackColor];
     
@@ -47,6 +53,10 @@ const CFTimeInterval defaultCreateObjectFreq=defaultYSpacing/defaultFallingSpeed
             shouldCreateObjects=YES;
         }];
     }];
+    
+    scoreLabel=[SKLabelNode labelNodeWithText:@"0"];
+    scoreLabel.position=CGPointMake(self.size.width/2, self.size.height-50);
+    [self addChild:scoreLabel];
 }
 
 -(void)createTwoCrossBeams;
@@ -148,12 +158,19 @@ const CFTimeInterval defaultCreateObjectFreq=defaultYSpacing/defaultFallingSpeed
             [self gameOver];
             return;
         }
+        if (chopper.position.y>beam.position.y)
+        {
+            if (beam.passed==NO) {
+                beam.passed=YES;
+                [self addScore:1];
+            }
+        }
     }
     
     BOOL interLeft=chopper.position.x-chopper.size.width/2<0;
     BOOL interRight=chopper.position.x+chopper.size.width/2>self.size.width;
     if (interLeft||interRight) {
-        [self gameOver];
+//        [self gameOver];
         return;
     }
 }
@@ -161,6 +178,7 @@ const CFTimeInterval defaultCreateObjectFreq=defaultYSpacing/defaultFallingSpeed
 -(void)gameOver
 {
     isGameOver=YES;
+    [self reportScore:currentScore];
     
     CFTimeInterval fallingTime=1;
     
@@ -203,6 +221,8 @@ const CFTimeInterval defaultCreateObjectFreq=defaultYSpacing/defaultFallingSpeed
     [ground runAction:rising completion:^{
         [self performSelector:@selector(restartGame) withObject:nil afterDelay:2];
     }];
+    
+    
 }
 
 -(void)restartGame
@@ -210,6 +230,27 @@ const CFTimeInterval defaultCreateObjectFreq=defaultYSpacing/defaultFallingSpeed
     GameScene *scene = [GameScene sceneWithSize:self.view.frame.size];
     scene.scaleMode = SKSceneScaleModeResizeFill;
     [self.view presentScene:scene];
+}
+
+-(void)addScore:(NSInteger)score
+{
+    currentScore=currentScore+score;
+    
+    scoreLabel.text=[NSString stringWithFormat:@"%ld",(long)currentScore];
+}
+
+-(void)reportScore:(NSInteger)score
+{
+    if ([[GKLocalPlayer localPlayer]isAuthenticated]) {
+        GKScore* scoreRp=[[GKScore alloc]initWithLeaderboardIdentifier:@"highScore"];
+        scoreRp.value=score;
+        NSArray* scoreArray=[NSArray arrayWithObject:scoreRp];
+        [GKScore reportScores:scoreArray withCompletionHandler:^(NSError * _Nullable error) {
+            if (error) {
+                NSLog(@"report score error: %@",error);
+            }
+        }];
+    }
 }
 
 @end

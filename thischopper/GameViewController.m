@@ -8,6 +8,7 @@
 
 #import "GameViewController.h"
 #import "GameScene.h"
+#import <GameKit/GameKit.h>
 
 @implementation GameViewController
 {
@@ -32,6 +33,18 @@
     
     // Present the scene.
     [skView presentScene:scene];
+    
+    GKLocalPlayer* localPlayer=[GKLocalPlayer localPlayer];
+    [localPlayer setAuthenticateHandler:^(UIViewController * viewController , NSError * error) {
+        NSLog(@"error:%@",error);
+        if (viewController!=nil) {
+            [self presentViewController:viewController animated:YES completion:nil];
+        }
+        else
+        {
+            NSLog(@"player:%@",[GKLocalPlayer localPlayer].description);
+        }
+    }];
 }
 
 - (BOOL)prefersStatusBarHidden {

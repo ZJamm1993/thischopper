@@ -8,6 +8,10 @@
 
 #import <SpriteKit/SpriteKit.h>
 
+#define ccp(x,y) CGPointMake(x,y)
+#define ZZRandom_0_1() ((CGFloat)(arc4random()%100000/(CGFloat)100000))
+#define ZZRandom_1_0_1() (ZZRandom_0_1()*(arc4random()%2==0?1:-1))
+
 @interface ZZSpriteNode : SKSpriteNode
 
 @property (nonatomic,assign) CGFloat speedX;
